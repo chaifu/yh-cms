@@ -10,8 +10,11 @@ module.exports = class Controller {
             assignData[dataKey] = dataVal;
             return assignData;
         }
-        this.fetch = function(tplPath) {
-            return {tplPath: tplPath,data: assignData}
+        this.fetch = function(path) {
+            if (!path) {
+                console.log('缺少模块路径参数');
+            }
+            return {tplPath: path,data: assignData}
         }
     }
    

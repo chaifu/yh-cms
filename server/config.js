@@ -1,4 +1,4 @@
-module.exports={
+module.exports = {
     //控制器配置区域
     app:{
         isDirectory:false,//是否控制器增加分类目录规划 如：home为pc端目录 API为移动端接口目录
@@ -8,8 +8,8 @@ module.exports={
     dbOptions:{
         host : 'localhost',
         port : 3306 ,
-        database : 'xxx',
+        database : 'mipcms',
         user: 'root',
-        password : 'xxx'
+        password : '11111111'
     },
 }

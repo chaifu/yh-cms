@@ -1,0 +1,40 @@
+.yh-list {
+    list-style: none;
+    padding: 0;
+    border-bottom: 1px solid #f0f0f0;
+    position: relative;
+    -webkit-transition: background .3s ease-in;
+    transition: background .3s ease-in;
+    z-index: 1;
+    .list-item{
+        a{
+            position: relative;
+            table-layout: fixed;
+            width: 100%;
+        }
+        .item-body{    
+            display: table-cell;
+            position: relative;
+            vertical-align: middle;
+        }
+        .item-title {
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 22px;
+            color: #444;
+        }
+        .item-content {
+            overflow: hidden;
+            letter-spacing: 1px;
+            line-height: 1.5;
+            color: #666;
+        }
+        .item-extra {
+            height: 18px;
+            margin-top: 7px;
+            line-height: 18px;
+            position: relative;
+            color: #999;
+        }
+    }
+}

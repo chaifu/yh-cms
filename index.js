@@ -44,6 +44,11 @@ app.use(async function (ctx) {
                 CTR = U[0];
                 ACT = U[1];
             break;
+                default:
+                MOD = U[0];
+                CTR = U[0];
+                ACT = U[1];
+            break;
         }
         U = MOD + '/' + CTR;
     }
