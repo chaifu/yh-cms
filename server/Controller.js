@@ -3,6 +3,7 @@
  * 
  * @todo 所有的控制器继承此基类
  */
+
 module.exports = class Controller {
     constructor() {
         var assignData = {};
