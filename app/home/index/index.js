@@ -1,5 +1,5 @@
-var YH = require('../../server/YH');
-var model = require('../../model/Article');
+var YH = require('../../../server/YH');
+var model = require('../../../model/Article');
 var db = new model();
 
 module.exports = class index extends YH {

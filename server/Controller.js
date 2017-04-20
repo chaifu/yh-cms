@@ -17,6 +17,12 @@ module.exports = class Controller {
             }
             return {tplPath: path,data: assignData}
         }
+        this.jsonError = function (msg,data,code = -1){
+            return JSON.stringify({'code': code,'data': data ? data : '', 'msg': msg ? msg : ''});
+        }
+        this.jsonSuccess = function (msg,data,code = 1){
+            return JSON.stringify({'code': code,'data': data ? data : '', 'msg': msg ? msg : ''});
+        }
     }
    
 }
