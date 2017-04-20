@@ -1,11 +1,10 @@
 const send = require('koa-send');
 const Koa = require('koa');
-const bodyParser = require('koa-bodyparser');
 const render = require('koa-ejs');
 const path = require('path');
+const bodyparser = require('koa-bodyparser')();
 const fs = require('fs');
 const app = new Koa();
-app.use(bodyParser());
 var U = '';
 var MOD = '';
 var CTR = '';
@@ -22,10 +21,9 @@ render(app, {
     cache: false,
     debug: true
 });
+app.use(bodyparser);
 app.use(async function (ctx) {
     U = ctx.request.url;
-    var requestUrl = ctx.request.header.referer
-    var host = ctx.request.header.host
     if (U == '/favicon.ico'){return false;}
     if (U == '/') {
         U = 'index/index';
@@ -115,17 +113,26 @@ app.use(async function (ctx) {
         }    
     }
     PARAMSOBJ['id'] = LASTID;
+    PARAMSOBJ['query'] = ctx.request.query;
+    PARAMSOBJ['body'] = ctx.request.body;
+    PARAMSOBJ['method'] = ctx.method;
+    PARAMSOBJ['ctx'] = ctx;
     if (MOD == 'assets') {
         await send(ctx, ctx.path, { root: __dirname + '/' });
     } else {
-        var controller = require('./app/' + DIR + '/' +U);
-        var p = new controller();
-        var tplData = await p[ACT](PARAMSOBJ);
-        if (DIR != 'api') {
-            await ctx.render(tplData.tplPath,tplData.data)
-        } else {
-            ctx.body = tplData;
+        try{
+        	var controller = require('./app/' + DIR + '/' +U);
+            var p = new controller();
+            var tplData = await p[ACT](PARAMSOBJ);
+            if (DIR != 'api') {
+                await ctx.render(tplData.tplPath,tplData.data)
+            } else {
+                ctx.body = tplData;
+            }
+        }catch(e){
+        	ctx.redirect('/404');
         }
+        
     }
 });
 app.listen(3000);
