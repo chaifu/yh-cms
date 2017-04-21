@@ -102,37 +102,41 @@ app.use(async function (ctx) {
             }
             U = MOD + '/' + CTR;
         }
+        
     }
-    if (PARAMS) {
-        PARAMS = PARAMS.split('__');
-    }
-    if (PARAMS.length > 0) {
-        for (var i = 0; i < PARAMS.length; i++) {
-            var tempArray = PARAMS[i].split('-');
-            PARAMSOBJ[tempArray[0]] = tempArray[1];
-        }    
-    }
-    PARAMSOBJ['id'] = LASTID;
-    PARAMSOBJ['query'] = ctx.request.query;
-    PARAMSOBJ['body'] = ctx.request.body;
-    PARAMSOBJ['method'] = ctx.method;
-    PARAMSOBJ['ctx'] = ctx;
+    
     if (MOD == 'assets') {
         await send(ctx, ctx.path, { root: __dirname + '/' });
     } else {
+        if (PARAMS) {
+            if (PARAMS.indexOf('__') > -1) {
+                PARAMS = PARAMS.split('__');
+                if (PARAMS.length > 0) {
+                    for (var i = 0; i < PARAMS.length; i++) {
+                        var tempArray = PARAMS[i].split('-');
+                        PARAMSOBJ[tempArray[0]] = tempArray[1];
+                    }    
+                }
+            }
+        }
+        PARAMSOBJ['id'] = LASTID;
+        PARAMSOBJ['query'] = ctx.request.query;
+        PARAMSOBJ['body'] = ctx.request.body;
+        PARAMSOBJ['method'] = ctx.method;
+        PARAMSOBJ['ctx'] = ctx;
         try{
-        	var controller = require('./app/' + DIR + '/' +U);
+            var controller = require('./app/' + DIR + '/' +U);
             var p = new controller();
             var tplData = await p[ACT](PARAMSOBJ);
+                tplData.data.domian = ctx.request.origin;
             if (DIR != 'api') {
                 await ctx.render(tplData.tplPath,tplData.data)
             } else {
                 ctx.body = tplData;
             }
-        }catch(e){
-        	ctx.redirect('/404');
+        } catch(e) {
+            ctx.redirect('/');
         }
-        
     }
 });
 app.listen(3000);

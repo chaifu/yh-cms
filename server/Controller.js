@@ -5,7 +5,7 @@
  */
 
 module.exports = class Controller {
-    constructor() {
+    constructor(roter) {
         var assignData = {};
         this.assign = function(dataKey,dataVal) {
             assignData[dataKey] = dataVal;
